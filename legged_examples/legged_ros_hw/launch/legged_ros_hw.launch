@@ -1,0 +1,19 @@
+<launch>
+    <arg name="robot_type" default="$(env ROBOT_TYPE)" doc="Robot type: [a1, aliengo, ...]"/>
+
+    <arg name="description_pkg" default="$(eval arg('robot_type') + '_description')" />
+    <arg name="urdf_file" default="$(eval arg('robot_type') + '_description.urdf')" />
+    <arg name="description_pkg_path" default="$(eval find(arg('description_pkg')))" />
+    
+    <param name="robot_type" value="$(arg robot_type)" />
+    <param name="legged_robot_description" textfile="$(eval arg('description_pkg_path') + '/urdf/' + arg('urdf_file'))" />
+
+    <rosparam file="$(find legged_ros_hw)/config/default.yaml" command="load"/>
+
+    <param name="robot_type" value="$(arg robot_type)"/>
+    <node name="legged_ros_hw" pkg="legged_ros_hw" type="legged_ros_hw"
+          output="screen"
+          respawn="false"
+          clear_params="true"/>
+</launch>
+

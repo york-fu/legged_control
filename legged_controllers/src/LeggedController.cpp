@@ -112,6 +112,7 @@ void LeggedController::update(const ros::Time& time, const ros::Duration& period
   vector_t optimizedState, optimizedInput;
   size_t plannedMode = 0;  // The mode that is active at the time the policy is evaluated at.
   mpcMrtInterface_->evaluatePolicy(currentObservation_.time, currentObservation_.state, optimizedState, optimizedInput, plannedMode);
+  currentObservation_.mode = plannedMode;
 
   // Whole body control
   currentObservation_.input = optimizedInput;
@@ -155,8 +156,13 @@ void LeggedController::updateStateEstimation(const ros::Time& time, const ros::D
     jointPos(i) = hybridJointHandles_[i].getPosition();
     jointVel(i) = hybridJointHandles_[i].getVelocity();
   }
-  for (size_t i = 0; i < contacts.size(); ++i) {
-    contactFlag[i] = contactHandles_[i].isContact();
+  if (use_contact_snesor_) {
+    for (size_t i = 0; i < contacts.size(); ++i) {
+      contactFlag[i] = contactHandles_[i].isContact();
+    }
+  }
+  else {
+    contactFlag = modeNumber2StanceLeg(currentObservation_.mode);
   }
   for (size_t i = 0; i < 4; ++i) {
     quat.coeffs()(i) = imuSensorHandle_.getOrientation()[i];
@@ -179,7 +185,7 @@ void LeggedController::updateStateEstimation(const ros::Time& time, const ros::D
   scalar_t yawLast = currentObservation_.state(9);
   currentObservation_.state = rbdConversions_->computeCentroidalStateFromRbdModel(measuredRbdState_);
   currentObservation_.state(9) = yawLast + angles::shortest_angular_distance(yawLast, currentObservation_.state(9));
-  currentObservation_.mode = stateEstimate_->getMode();
+  // currentObservation_.mode = stateEstimate_->getMode();
 }
 
 LeggedController::~LeggedController() {

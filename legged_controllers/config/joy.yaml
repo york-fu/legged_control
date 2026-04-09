@@ -6,11 +6,11 @@ teleop:
     deadman_buttons: [ 4 ]
     axis_mappings:
       - axis: 0
-        target: angular.z
-        scale: 3.1415
+        target: linear.y
+        scale: 0.8
       - axis: 1
         target: linear.x
         scale: 1.0
-      - axis: 2
-        target: linear.y
-        scale: 0.8
+      - axis: 3
+        target: angular.z
+        scale: 3.1415

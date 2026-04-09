@@ -1,0 +1,9 @@
+legged_ros_hw:
+  loop_frequency: 500
+  cycle_time_error_threshold: 0.002
+  thread_priority: 95
+  joint_state_topic: "/state/joint"
+  imu_topic: "/state/imu"
+  contact_state_topic: "/state/contact"
+  joint_cmd_topic: "/desire/joint"
+  joint_params_topic: "/desire/joint/params"

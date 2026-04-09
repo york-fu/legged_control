@@ -1,5 +1,7 @@
 # legged_control
 
+Forked from qiayuanl/legged_control
+
 > [!NOTE]
 > **This software is not supported anymore! The authors of this software are developing a completely new framework and are not working on this project anymore. Please excuse any inconvenience this might cause.**
 
@@ -68,6 +70,10 @@ its dependencies following the step below.
    git clone --recurse-submodules https://github.com/leggedrobotics/hpp-fcl.git
    # Clone ocs2_robotic_assets
    git clone https://github.com/leggedrobotics/ocs2_robotic_assets.git
+   # Clone gazebo_ros_sim
+   git clone https://github.com/york-fu/gazebo_ros_sim.git
+   # Clone unitree_quadruped_description_ros
+   git clone https://github.com/york-fu/unitree_quadruped_description_ros.git
    # Install dependencies
    sudo apt install liburdfdom-dev liboctomap-dev libassimp-dev
    ```
@@ -86,13 +92,15 @@ its dependencies following the step below.
 Build the source code of `legged_control` by:
 
 ```
-catkin build legged_controllers legged_unitree_description
+# catkin build legged_controllers legged_unitree_description
+catkin build legged_controllers legged_ros_hw a1_description aliengo_description
 ```
 
 Build the simulation (**DO NOT** run on the onboard computer)
 
 ```
-catkin build legged_gazebo
+# catkin build legged_gazebo
+catkin build gazebo_ros_sim
 ```
 
 Build the hardware interface real robot. If you use your computer only for simulation, you **DO NOT** need to
@@ -113,7 +121,9 @@ export ROBOT_TYPE=a1
 2. Run the simulation:
 
 ```
-roslaunch legged_unitree_description empty_world.launch
+# roslaunch legged_unitree_description empty_world.launch
+roslaunch gazebo_ros_sim gazebo_sim.launch
+roslaunch legged_ros_hw legged_ros_hw.launch
 ```
 
 Or on the robot hardware:

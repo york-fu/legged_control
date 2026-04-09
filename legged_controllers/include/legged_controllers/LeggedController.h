@@ -55,6 +55,7 @@ class LeggedController : public controller_interface::MultiInterfaceController<H
   vector_t measuredRbdState_;
   std::shared_ptr<StateEstimateBase> stateEstimate_;
   std::shared_ptr<CentroidalModelRbdConversions> rbdConversions_;
+  bool use_contact_snesor_{false};
 
   // Whole Body Control
   std::shared_ptr<WbcBase> wbc_;
